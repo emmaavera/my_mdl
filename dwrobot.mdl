@@ -34,4 +34,3 @@ rotate x 20
 box 0 0 20 60 100 40
 save hello.png 
 display
-quit

@@ -2639,13 +2639,15 @@ int main(int argc, char **argv)
       }
 	
     }
-  
+  printf("Call to yyparse\n");
   yyparse();
   //COMMENT OUT PRINT_PCODE AND UNCOMMENT
   //MY_MAIN IN ORDER TO RUN YOUR CODE
-  print_pcode();
-  //my_main();
-
+  //printf("Call to print_pcode\n");
+  //print_pcode();
+  printf("Call to my_main\n");
+  my_main();
+  printf("End of main\n");
   return 0;    
 }
 

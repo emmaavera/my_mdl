@@ -52,7 +52,7 @@
 
 void my_main( int polygons ) {
 
-
+  printf("successful call to my_main");
   int i;
   double step, angle, radius;
   double xval, yval, zval, xcor, ycor, zcor;
@@ -159,12 +159,15 @@ void my_main( int polygons ) {
         break;
       case SAVE:
         save_extension(t, op[i].op.save.p->name);
-        printf("Wenjne\n");
+        printf("00\n");
         break;
       
       case DISPLAY:
+        printf("%s\n", "01");
         display(t);
+        printf("%s\n", "02");
         break;
+
     }
   }
   
