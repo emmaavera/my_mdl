@@ -52,7 +52,7 @@
 
 void my_main( int polygons ) {
 
-  printf("successful call to my_main");
+  printf("successful call to my_main\n");
   int i;
   double step, angle, radius;
   double xval, yval, zval, xcor, ycor, zcor;
@@ -60,19 +60,23 @@ void my_main( int polygons ) {
   struct matrix *tmp;
   screen t;
   color g;
+  g.red = 0;
+  g.green = 255;
+  g.blue = 0;
   
   tmp = new_matrix(4, 1000);
   struct stack * origins = new_stack();
   clear_screen( t );
-
   for (i=0;i<lastop;i++) {  
-    switch (op[i].opcode) {
-
+    printf("loop %d\n", i);
+    switch (op[i].opcode){
       case PUSH:
         push(origins);
+        printf("%s\n", "push\n");
         break;
       case POP:
         pop(origins);
+        printf("%s\n", "pop\n");
         break;     
       case MOVE:
         xval = op[i].op.move.d[0]; 
@@ -81,7 +85,8 @@ void my_main( int polygons ) {
         tmp = make_translate(xval, yval, zval);
         matrix_mult(origins->data[origins->top], tmp);
         copy_matrix(tmp, origins->data[origins->top]);
-        free(tmp);
+        //free(tmp);
+        printf("%s\n", "move\n");
         break;
         //I don't know what to do with op.move.d[3]     
       case SCALE:
@@ -91,7 +96,8 @@ void my_main( int polygons ) {
         tmp = make_scale(xval, yval, zval);
         matrix_mult(origins->data[origins->top], tmp);
         copy_matrix(tmp, origins->data[origins->top]);
-        free(tmp);
+        //free(tmp);
+        printf("%s\n", "scale\n");
         break;
       case ROTATE:
         angle = op[i].op.rotate.degrees * M_PI / 180;
@@ -110,9 +116,10 @@ void my_main( int polygons ) {
           matrix_mult(origins->data[origins->top], tmp);
           copy_matrix(tmp, origins->data[origins->top]);
         }
-        free(tmp);
+        //free(tmp);
+        printf("%s\n", "rotate\n");
         break;
-      case BOX:        
+      case BOX: 
         xval = op[i].op.box.d0[0]; 
         yval = op[i].op.box.d0[1]; 
         zval = op[i].op.box.d0[2]; 
@@ -122,8 +129,9 @@ void my_main( int polygons ) {
         add_box(tmp, xval, yval, zval, xcor, ycor, zcor);
         matrix_mult(origins->data[origins->top], tmp);
         draw_polygons(tmp, t, g);
-        free(tmp);
+        printf("box\n");
         break;
+        
       case SPHERE:
         xval = op[i].op.sphere.d[0]; 
         yval = op[i].op.sphere.d[1]; 
@@ -132,7 +140,8 @@ void my_main( int polygons ) {
         add_sphere(tmp, xval, yval, zval, radius, 10);
         matrix_mult(origins->data[origins->top], tmp);
         draw_polygons(tmp, t, g);
-        free(tmp);
+        //free(tmp);
+        printf("%s\n", "sphere\n");
         break;
       case TORUS:
         xval = op[i].op.torus.d[0];
@@ -143,7 +152,8 @@ void my_main( int polygons ) {
         add_torus(tmp, xval, yval, zval, inner, outer, 10);
         matrix_mult(origins->data[origins->top], tmp);
         draw_polygons(tmp, t, g);
-        free(tmp);
+        //free(tmp);
+        printf("%s\n", "torus\n");
         break;
       case LINE:
         xval = op[i].op.line.p0[0];
@@ -155,17 +165,17 @@ void my_main( int polygons ) {
         add_edge(tmp, xval, yval, zval, xcor, ycor, zcor);
         matrix_mult(origins->data[origins->top], tmp);
         draw_lines(tmp, t, g);
-        free(tmp);
+        //free(tmp);
+        printf("%s\n", "line\n");
         break;
       case SAVE:
         save_extension(t, op[i].op.save.p->name);
-        printf("00\n");
+        printf("%s\n", "save\n");
         break;
       
       case DISPLAY:
-        printf("%s\n", "01");
         display(t);
-        printf("%s\n", "02");
+        printf("%s\n", "display\n");
         break;
 
     }
